@@ -19,17 +19,23 @@ allowing access to X.25 networks using XOT described in
 
 ## Usage
 
+### Quick Start
+
 To connect to a host:
 
 ```
-xotpad 73741100
+xotpad -g xot.trysteropac.net 73741100
 ```
 
-To start an interactive PAD:
+To start an interactive X.28 PAD, and call the same host:
 
-```
-xotpad
-```
+<pre>
+xotpad -g xot.trysteropac.net
+* <kbd>call 73741100</kbd>
+<i>...</i>
+<kbd>&lt;Ctrl+P&gt</kbd>
+*
+</pre>
 
 By default, the interactive PAD will _not_ listen for incoming calls. To listen for
 incoming calls:
