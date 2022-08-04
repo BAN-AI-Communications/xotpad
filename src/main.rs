@@ -19,6 +19,13 @@ use xotpad::xot::{XotCodec, XotResolver};
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = ClapCommand::new("xotpad")
         .arg(
+            Arg::new("config")
+                .short('c')
+                .takes_value(true)
+                .value_name("file")
+                .help("Configuration file"),
+        )
+        .arg(
             Arg::new("address")
                 .short('a')
                 .takes_value(true)
@@ -40,21 +47,29 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .help("X.25 profile"),
         )
         .arg(
-            Arg::new("listen_only")
+            Arg::new("x3_profile")
+                .short('p')
+                .takes_value(true)
+                .value_name("profile")
+                .help("X.3 profile"),
+        )
+        .arg(
+            Arg::new("listen")
                 .short('l')
-                .help("Only listen for incoming calls"),
+                .help("Listen for incoming calls"),
         )
         .arg(
             Arg::new("listen_interactive")
                 .short('L')
-                .conflicts_with("listen_only")
-                .help("Listen for incoming calls"),
+                .conflicts_with("listen")
+                .help("Accept incoming calls"),
         )
         .arg(
             Arg::new("call_address")
+                .value_name("address")
                 .required(false)
                 .index(1)
-                .conflicts_with("listen_only")
+                .conflicts_with("listen")
                 .conflicts_with("listen_interactive")
                 .help("X.121 address to call"),
         )
@@ -71,10 +86,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         X25Parameters::default()
     };
 
-    let should_listen_only = matches.is_present("listen_only");
+    let should_listen = matches.is_present("listen");
     let should_listen_interactive = matches.is_present("listen_interactive");
 
-    if should_listen_only {
+    if should_listen {
         let mut listen_table = ListenTable::new();
 
         listen_table.register("^737202..$", "/home/andrew/tmp/inf0.py".into())?;
