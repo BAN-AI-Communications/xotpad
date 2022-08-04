@@ -9,9 +9,9 @@ Okay, so this is just a prototype for now... the goal is to create a cross-platf
 allowing access to X.25 networks using XOT described in
 [RFC 1613](https://www.rfc-editor.org/rfc/rfc1613.html).
 
-  - [ ] User space X.25 over TCP (XOT)
-      - [ ] Modulo 8
-      - [ ] Modulo 128
+  - [x] User space X.25 over TCP (XOT)
+      - [x] Modulo 8
+      - [x] Modulo 128
       - [ ] Flow control parameter negotiation (packet and window size)
   - [ ] Interactive _Triple-X_ PAD (X.3, X.28 and X.29)
   - [ ] Host PAD providing access to local processes
@@ -41,8 +41,7 @@ Use <kbd>Ctrl+P</kbd> to recall the PAD, this is similar to the `telnet` <kbd>Ct
 
 To exit the interactive PAD, use the `exit` command.
 
-By default, the interactive PAD will _not_ listen for incoming calls. To listen for
-incoming calls:
+By default, the interactive PAD will _not_ accept incoming calls. To listen for, and accept, incoming calls:
 
 ```
 xotpad -g xot.trysteropac.net -L
