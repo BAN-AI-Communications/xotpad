@@ -59,18 +59,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .help("Listen for incoming calls"),
         )
         .arg(
-            Arg::new("listen_interactive")
+            Arg::new("accept")
                 .short('L')
                 .conflicts_with("listen")
                 .help("Accept incoming calls"),
         )
         .arg(
             Arg::new("call_address")
-                .value_name("address")
                 .required(false)
                 .index(1)
+                .value_name("address")
                 .conflicts_with("listen")
-                .conflicts_with("listen_interactive")
+                .conflicts_with("accept")
                 .help("X.121 address to call"),
         )
         .get_matches();
@@ -87,7 +87,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let should_listen = matches.is_present("listen");
-    let should_listen_interactive = matches.is_present("listen_interactive");
+    let should_accept = matches.is_present("accept");
 
     if should_listen {
         let mut listen_table = ListenTable::new();
@@ -166,7 +166,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .map(X121Address::from_str)
             .transpose()?;
 
-        let listener = if call_address.is_none() && should_listen_interactive {
+        let listener = if call_address.is_none() && should_accept {
             match TcpListener::bind(("0.0.0.0", xot::TCP_PORT)).await {
                 Ok(l) => Some(l),
                 Err(e) => {
