@@ -1,0 +1,70 @@
+# The outgoing tables describe the routing of outgoing calls.
+#
+# These keys control the outgoing call selection:
+#
+#  * called - the called X.121 address (regex)
+#
+# These keys control the disposition:
+#
+#   * gateway - the XOT gateway host name, this is required
+#   * profile - the X.25 profile
+#
+# The gateway key can include regular expression <--- TODO
+[outgoing]
+1 = { called = "^737*", gateway = "xot.trysteropac.net" }
+2 = { called = "^(...)(...)..$", gateway = '\2.\1.x25.org', profile = "telebahn" }
+
+# The incoming tables describe the handling of incoming calls when the...
+#
+# These keys control the incoming call selection:
+#
+#   * called - the called X.121 address (regex)
+#   * calling - the calling X.121 address (regex)
+#   * cud - the X.29 call data, in ASCII (regex)
+#
+# These keys control the disposition:
+#
+#   * command - the process to start (and arguments)
+#   * clear - clear the call with a cause
+#   * profile - the X.3 profile to have the caller use
+#
+# The command will be provided the following environment variables:
+#
+#   * XOTPAD_CALLING - the calling X.121 address
+#   * XOTPAD_CALLED - the called X.121 address
+#   * XOTPAD_CUD - the X.29 call data, in ASCII
+[incoming]
+1 = { command = "/bin/bash" } # don't do this, but it is the simplest incoming rule!
+2 = { called = "^73799999$", clear = 1 }
+3 = { called = "^737999..$", command = "node /opt/bbs.js", profile = "bbs" }
+4 = { cud = "^bbs$", command = "node /opt/bbs.js" }
+5 = { calling = "^99999999$", command = "/bin/bash" } # don't do this either!
+
+[x25-profile]
+default = "trysteropac"
+
+[x25-profile.trysteropac]
+modulo = 128
+send-packet-size = 1024
+receive-packet-size = 1024
+send-window-size = 15
+receive-window-size = 15
+
+[x25_profile.telebahn]
+modulo = 128
+send-packet-size = 1024
+receive-packet-size = 1024
+send-window-size = 15
+receive-window-size = 15
+
+[x3-profile]
+default = "unixish"
+
+[x3-profile.unixish]
+# TODO...
+
+[x3-profile.vm]
+# TODO...
+
+[x3-profile.bbs]
+# TODO...
