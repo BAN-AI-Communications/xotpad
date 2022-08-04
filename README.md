@@ -23,9 +23,9 @@ allowing access to X.25 networks using XOT described in
 
 To connect to a host:
 
-```
-xotpad -g xot.trysteropac.net 73741100
-```
+<pre>
+<kbd>xotpad -g xot.trysteropac.net 73741100</kbd>
+</pre>
 
 To start an interactive X.28 PAD, and call the same host:
 
@@ -34,18 +34,18 @@ xotpad -g xot.trysteropac.net
 * <kbd>call 73741100</kbd>
 <i>...</i>
 <kbd>&lt;Ctrl+P&gt</kbd>
-*
+* <kbd>exit</kbd>
 </pre>
+
+Use <kbd>Ctrl+P</kbd> to recall the PAD, this is similar to the `telnet` <kbd>Ctrl+]</kbd> sequence.
+
+To exit the interactive PAD, enter <kbd>exit</kbd>.
 
 By default, the interactive PAD will _not_ listen for incoming calls. To listen for
 incoming calls:
 
-```
-xotpad -L
-```
+<pre>
+<kbd>xotpad -g xot.trysteropac.net -L</kbd>
+</pre>
 
-Finally, to provide a host PAD:
-
-```
-xotpad -l
-```
+Incoming calls will be automatically accepted, assuming the PAD is free.
